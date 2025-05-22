@@ -1,5 +1,5 @@
 import sreamlit as s
-from uv_utils import uv_index
+from uv_utils import uv_index, calculate_safety_minutes
 # Set up the sreamlit app's metadata
 s.set_page_config(page_title="UV Safety Recommender", page_icon="🌞")
 
