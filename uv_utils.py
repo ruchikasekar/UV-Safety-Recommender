@@ -19,5 +19,37 @@ if not coordinates:
 lat = coordinates[0]['lat'], geo[0]['lon']
 
 
-  
+  def calculate_safe_minutes(skin_type, spf, uv_index):
+    """
+    Calculates a safe sun exposure time (in minutes) based on:
+    - Skin type (Fitzpatrick I-VI)
+    - SPF value
+    - UV index from OpenWeather
+    """
+
+    # Step 1: Define base time (in minutes) for each skin type at UV Index = 1, no sunscreen
+    base_minutes = {
+        "I": 10,
+        "II": 15,
+        "III": 20,
+        "IV": 25,
+        "V": 30,
+        "VI": 35
+    }
+
+    # Get the base time for the given skin type
+    base = base_minutes[skin_type]
+
+    # Step 2: Adjust for current UV index (higher UV = lower safe time)
+    if uv_index > 0:
+        adjusted = base / uv_index
+    else:
+        adjusted = base
+
+    # Step 3: Adjust for sunscreen SPF (SPF 15 ≈ 2x, SPF 30 ≈ 3x)
+    if spf > 0:
+        adjusted *= (spf / 15)
+
+    # Return rounded result
+    return round(adjusted)
   
